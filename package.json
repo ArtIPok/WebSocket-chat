@@ -6,6 +6,9 @@
   "author": "ArtIPok <apokora@itsap.pl>",
   "license": "MIT",
   "scripts": {
-    "start": "npm start"
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }

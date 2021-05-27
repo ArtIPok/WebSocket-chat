@@ -8,32 +8,32 @@
   const userNameInput = document.getElementById('username');
   const messageContentInput = document.getElementById('message-content');
 
-  const userName = userNameInput;
-
-  console.log(userName);
+  let userName = '';
 
   loginForm.addEventListener('submit', login);
 
   function login(event) {
     event.preventDefault();
     
-    if(userNameInput){
-      userName = userNameInput;
+    userName = userNameInput.value;
+
+    if(userName){
       messagesSection.classList.add('show');
       loginForm.classList.remove('show');
     }
-    else alert();
+    else alert('You must enter your login');
   }
 
   addMessageForm.addEventListener('submit', sendMessage);
 
   function sendMessage(event) {
     event.preventDefault();
-    if(messageContentInput) {
-      addMessageForm(userName, messageContentInput.value);
-      // clear this text field
+
+    if(messageContentInput.value) {
+      addMessage(userName, messageContentInput.value);
+      messageContentInput.value = '';
     } 
-    else alert();
+    else alert('You must write message');
   }
 
   function addMessage(author, content) {
