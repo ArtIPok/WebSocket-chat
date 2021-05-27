@@ -1,0 +1,11 @@
+{
+  "name": "websocket-chat",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:ArtIPok/WebSocket-chat.git",
+  "author": "ArtIPok <apokora@itsap.pl>",
+  "license": "MIT",
+  "scripts": {
+    "start": "npm start"
+  }
+}
