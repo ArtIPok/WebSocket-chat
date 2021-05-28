@@ -10,16 +10,22 @@
 
   let userName = '';
 
+  const socket = io();
+
+  socket.on('message', ({ author, content }) => {
+    addMessage(author, content);
+  });
+
   loginForm.addEventListener('submit', login);
 
   function login(event) {
     event.preventDefault();
     
-    userName = userNameInput.value;
+    let userName = userNameInput.value;
 
-    if(userName){
+    if(userName.length) {
       messagesSection.classList.add('show');
-      loginForm.classList.remove('show');
+      loginForm.classList.remove('show');  
     }
     else alert('You must enter your login');
   }
@@ -29,11 +35,14 @@
   function sendMessage(event) {
     event.preventDefault();
 
-    if(messageContentInput.value) {
-      addMessage(userName, messageContentInput.value);
-      messageContentInput.value = '';
+    let messageContent = messageContentInput.value
+
+    if(messageContent.length) {
+      addMessage(userName, messageContent);
+      socket.emit('message', { author: userName, content: messageContent });
+      messageContent = '';
     } 
-    else alert('You must write message');
+    else alert('You have to type something');
   }
 
   function addMessage(author, content) {
