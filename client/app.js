@@ -50,6 +50,13 @@
     else alert('You have to type something');
   }
 
+  function addUser() {
+    const author = 'Chat Bot';
+    let userName = userNameInput.value;
+    let content = userName + ' joined the conversation!';
+    addMessage(author, content);
+  }
+
   function addMessage(author, content) {
     const message = document.createElement('li');
     let userName = userNameInput.value;
@@ -66,10 +73,4 @@
     messagesList.appendChild(message);
   }
 
-  // function addUser(userName) {
-  //   let author = 'Chat Bot';
-  //   let userName = userNameInput.value;
-  //   let content = userName + 'joined the conversation!';
-  //   addMessage();
-  // }
 }
