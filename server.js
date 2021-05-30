@@ -5,14 +5,7 @@ const socket = require('socket.io');
 const app = express();
 
 const messages = [];
-const users = [
-  {
-    name: ''
-  },
-  {
-    id: ''
-  },
-]
+const users = [];
 
 const server = app.listen(8000, () => {
   console.log('Server is running on Port:', 8000)
@@ -23,10 +16,13 @@ io.on('connection', (socket) => {
   console.log('New client! Its id – ' + socket.id);
 
   socket.on('join', (userName) => {
-    console.log(userName);
-    console.log(`${userName} has joined the conversation!`);
-    users.push(userName, socket.id);
-    socket.broadcast.emit('join', userName);
+    let id = socket.id;
+    let name = userName;
+
+    console.log(`${name} has joined the conversation!`);
+    users.push({id, name});
+    console.log(users);
+    socket.broadcast.emit('join', name);
   });
 
   socket.on('message', (message) => {
@@ -34,7 +30,14 @@ io.on('connection', (socket) => {
     messages.push(message);
     socket.broadcast.emit('message', message);
   });
-  socket.on('disconnect', () => { console.log('Oh, socket ' + socket.id + ' has left') });
+  socket.on('disconnect', () => { 
+    const indexOfUser = users.indexOf(socket.id)
+
+    console.log('Oh, socket ' + socket.id + ' has left');
+    
+    users.splice(indexOfUser, 1);
+    console.log(users);
+  });
   console.log('I\'ve added a listener on message and disconnect events \n');
 });
 

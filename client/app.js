@@ -14,8 +14,8 @@
     addMessage(author, content);
   });
 
-  socket.on('join', ({ author }) => {
-    addUser(author);
+  socket.on('join', (userName) => {
+    addUser(userName);
   });
 
   loginForm.addEventListener('submit', login);
@@ -28,6 +28,7 @@
     if(userName.length) {
       messagesSection.classList.add('show');
       loginForm.classList.remove('show');
+      socket.emit('join', userName);
       addUser(userName);
     }
     else alert('You must enter your login');
@@ -65,9 +66,10 @@
     messagesList.appendChild(message);
   }
 
-  function addUser(author) {
-    let userName = userNameInput.value;
-
-    socket.emit('join', { author: userName });
-  }
+  // function addUser(userName) {
+  //   let author = 'Chat Bot';
+  //   let userName = userNameInput.value;
+  //   let content = userName + 'joined the conversation!';
+  //   addMessage();
+  // }
 }
