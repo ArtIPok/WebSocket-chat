@@ -8,12 +8,14 @@
   const userNameInput = document.getElementById('username');
   const messageContentInput = document.getElementById('message-content');
 
-  let userName = '';
-
   const socket = io();
 
   socket.on('message', ({ author, content }) => {
     addMessage(author, content);
+  });
+
+  socket.on('join', ({ author }) => {
+    addUser(author);
   });
 
   loginForm.addEventListener('submit', login);
@@ -25,7 +27,8 @@
 
     if(userName.length) {
       messagesSection.classList.add('show');
-      loginForm.classList.remove('show');  
+      loginForm.classList.remove('show');
+      addUser(userName);
     }
     else alert('You must enter your login');
   }
@@ -35,7 +38,8 @@
   function sendMessage(event) {
     event.preventDefault();
 
-    let messageContent = messageContentInput.value
+    let messageContent = messageContentInput.value;
+    let userName = userNameInput.value;
 
     if(messageContent.length) {
       addMessage(userName, messageContent);
@@ -47,6 +51,8 @@
 
   function addMessage(author, content) {
     const message = document.createElement('li');
+    let userName = userNameInput.value;
+
     message.classList.add('message');
     message.classList.add('message--received');
     if(author === userName) message.classList.add('message--self');
@@ -59,4 +65,9 @@
     messagesList.appendChild(message);
   }
 
+  function addUser(author) {
+    let userName = userNameInput.value;
+
+    socket.emit('join', { author: userName });
+  }
 }
