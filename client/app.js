@@ -18,6 +18,10 @@
     addUser(userName);
   });
 
+  socket.on('removeUser', (userName) => {
+    removeUser(userName);
+  });
+
   loginForm.addEventListener('submit', login);
 
   function login(event) {
@@ -50,10 +54,17 @@
     else alert('You have to type something');
   }
 
-  function addUser() {
+  function addUser(userName) {
     const author = 'Chat Bot';
-    let userName = userNameInput.value;
-    let content = userName + ' joined the conversation!';
+    let content = `<div class='new_user'> ${userName} joined the conversation!</div>`;
+    
+    addMessage(author, content);
+  }
+
+  function removeUser(userName) {
+    const author = 'Chat Bot';
+    let content = `<div class='new_user'> ${userName} has left the conversation... :(</div>`;
+
     addMessage(author, content);
   }
 
@@ -72,5 +83,4 @@
     `;
     messagesList.appendChild(message);
   }
-
 }

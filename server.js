@@ -31,12 +31,14 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('message', message);
   });
   socket.on('disconnect', () => { 
-    const indexOfUser = users.indexOf(socket.id)
-
+    const indexOfUser = users.indexOf(socket.id);
+    const { name } = users.find(users => users.id === socket.id);
+    
     console.log('Oh, socket ' + socket.id + ' has left');
     
     users.splice(indexOfUser, 1);
     console.log(users);
+    socket.broadcast.emit('removeUser', name);
   });
   console.log('I\'ve added a listener on message and disconnect events \n');
 });
